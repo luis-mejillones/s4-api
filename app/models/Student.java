@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.bson.Document;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import utils.S4Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Student {
-    public Student() {
-    }
-
+public class Student implements S4Serializable {
     @BsonProperty(value = "_id")
     private String id;
 

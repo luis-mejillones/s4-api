@@ -8,16 +8,16 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import services.StudentService;
+import services.GenericService;
 
 import javax.inject.Inject;
 import java.util.Optional;
 
 public class StudentController extends Controller {
-    private final StudentService service;
+    private final GenericService<Student> service;
 
     @Inject
-    public StudentController(final StudentService service) {
+    public StudentController(final GenericService<Student> service) {
         this.service = service;
     }
 
@@ -62,7 +62,7 @@ public class StudentController extends Controller {
         return ok(this.service.getResponseMessage(Http.Status.OK, StringUtils.EMPTY));
     }
 
-    public Result updatePatch(String id, Http.Request request) {
+    public Result update(String id, Http.Request request) {
         JsonNode body = request.body().asJson();
         if (body == null) {
             return badRequest(this.service.getResponseMessage(Http.Status.BAD_REQUEST, "Expecting Json data"));
@@ -77,7 +77,7 @@ public class StudentController extends Controller {
             );
         }
 
-        this.service.updatePatch(id, newData);
+        this.service.update(id, newData);
 
         return ok(this.service.getResponseMessage(Http.Status.OK, StringUtils.EMPTY));
     }

@@ -5,14 +5,14 @@ import models.Student;
 
 import java.util.Optional;
 
-public interface StudentService {
-    Student create(Student student);
+public interface GenericService<T> {
+    T create(T student);
 
-    Optional<Student> getById(String id);
+    Optional<T> getById(String id);
 
     Boolean delete(String id);
 
-    void updatePatch(String id, Student newData);
+    void update(String id, Student newData);
 
     JsonNode getResponseMessage(Integer status, String body);
 }

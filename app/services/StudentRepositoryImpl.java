@@ -4,14 +4,15 @@ import models.Student;
 import org.bson.Document;
 import org.slf4j.Logger;
 import utils.Persistence;
+import utils.S4Serializable;
 
 import java.util.Optional;
 
-public class StudentRepositoryImpl implements StudentRepository {
-    private final Persistence persistence;
+public class StudentRepositoryImpl implements GenericRepository<Student> {
+    private final Persistence<S4Serializable> persistence;
     private final Logger logger;
 
-    public StudentRepositoryImpl(final Persistence persistence, final Logger logger) {
+    public StudentRepositoryImpl(final Persistence<S4Serializable> persistence, final Logger logger) {
         this.persistence = persistence;
         this.logger = logger;
     }

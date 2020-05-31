@@ -4,10 +4,10 @@ import models.Student;
 
 import java.util.Optional;
 
-public interface StudentRepository {
-    Student create(Student student);
+public interface GenericRepository<T> {
+    T create(T student);
 
-    Optional<Student> getById(String id);
+    Optional<T> getById(String id);
 
     Boolean delete(String id);
 

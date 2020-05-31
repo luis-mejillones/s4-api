@@ -9,14 +9,14 @@ import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class Persistence {
+public class Persistence<T extends S4Serializable> {
     private final MongoCollection<Document> collection;
 
     public Persistence(final MongoCollection<Document> collection) {
         this.collection = collection;
     }
 
-    public void insert(Student student) {
+    public void insert(T student) {
         Document doc = student.toDocument();
         this.collection.insertOne(doc);
     }

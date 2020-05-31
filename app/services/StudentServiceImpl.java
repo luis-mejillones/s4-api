@@ -8,12 +8,12 @@ import play.libs.Json;
 
 import java.util.Optional;
 
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl implements GenericService<Student> {
+    private final GenericRepository<Student> repository;
     private final Logger logger;
-    private final StudentRepository repository;
 
     public StudentServiceImpl(
-            final StudentRepository repository,
+            final GenericRepository<Student> repository,
             final Logger logger
     ) {
         this.repository = repository;
@@ -36,7 +36,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void updatePatch(String id, Student newData) {
+    public void update(String id, Student newData) {
         Optional<Student> currentStudent = this.getById(id);
         if (currentStudent.isPresent()) {
             Student current = currentStudent.get();

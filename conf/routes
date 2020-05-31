@@ -8,8 +8,11 @@ GET     /                           controllers.HomeController.index
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-################# Merchant Controller ###############
+################# Student Controller ###############
 POST    /student          controllers.StudentController.create(request: Request)
 GET     /student/:id      controllers.StudentController.getById(id: String)
 DELETE  /student/:id      controllers.StudentController.delete(id: String)
-PATCH   /student/:id      controllers.StudentController.updatePatch(id: String, request: Request)
+PATCH   /student/:id      controllers.StudentController.update(id: String, request: Request)
+
+################# Class Controller ###############
+#POST    /class           controllers.ClassController.create(request: Request)
