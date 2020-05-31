@@ -6,6 +6,8 @@ import com.google.inject.Singleton;
 import models.S4Class;
 import models.Student;
 import org.slf4j.LoggerFactory;
+import services.AcademicPeriodRepository;
+import services.AcademicPeriodService;
 import services.GenericRepository;
 import services.GenericService;
 import services.S4ClassRepositoryImpl;
@@ -51,7 +53,7 @@ public class Module extends AbstractModule {
     ) {
         return new S4ClassServiceImpl(
                 repository,
-                LoggerFactory.getLogger(StudentServiceImpl.class)
+                LoggerFactory.getLogger(S4ClassServiceImpl.class)
         );
     }
 
@@ -62,7 +64,29 @@ public class Module extends AbstractModule {
         final Persistence<S4Serializable> persistence = new Persistence(conf.getS4ClassPersistenceModel());
         return new S4ClassRepositoryImpl(
                 persistence,
-                LoggerFactory.getLogger(StudentRepositoryImpl.class)
+                LoggerFactory.getLogger(S4ClassRepositoryImpl.class)
+        );
+    }
+
+    @Provides
+    @Singleton
+    public AcademicPeriodService getAcademicPeriodService(
+            AcademicPeriodRepository repository
+    ) {
+        return new AcademicPeriodService(
+                repository,
+                LoggerFactory.getLogger(AcademicPeriodService.class)
+        );
+    }
+
+    @Provides
+    @Singleton
+    public AcademicPeriodRepository getAcademicPeriodRepository() {
+        final Config conf = new Config();
+        final Persistence<S4Serializable> persistence = new Persistence(conf.getAcademicPeriodPersistenceModel());
+        return new AcademicPeriodRepository(
+                persistence,
+                LoggerFactory.getLogger(AcademicPeriodRepository.class)
         );
     }
 }

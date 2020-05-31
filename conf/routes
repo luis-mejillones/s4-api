@@ -21,3 +21,9 @@ GET     /class            controllers.S4ClassController.getAll()
 GET     /class/:id        controllers.S4ClassController.getById(id: String)
 DELETE  /class/:id        controllers.S4ClassController.delete(id: String)
 PATCH   /class/:id        controllers.S4ClassController.update(id: String, request: Request)
+
+################# Enroll and Disenroll students to/from classes Controller ###############
+POST /class/:classId/student/:studentId/enroll    controllers.AcademicPeriodController.link(classId: String, studentId: String)
+POST /class/:classId/student/:studentId/disenroll controllers.AcademicPeriodController.unlink(classId: String, studentId: String)
+GET  /class/:classId/students                     controllers.AcademicPeriodController.getAllStudentsByClassId(classId: String)
+GET  /student/:studentId/classes                  controllers.AcademicPeriodController.getAllClassesByStudentId(studentId: String)

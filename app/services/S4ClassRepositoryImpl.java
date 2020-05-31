@@ -1,7 +1,6 @@
 package services;
 
 import models.S4Class;
-import models.Student;
 import org.bson.Document;
 import org.slf4j.Logger;
 import utils.Persistence;

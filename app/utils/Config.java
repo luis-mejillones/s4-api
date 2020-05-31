@@ -21,4 +21,8 @@ public class Config {
     public MongoCollection<Document> getS4ClassPersistenceModel() {
         return database.getCollection(Constants.MONGODB_COLLECTION_CLASS);
     }
+
+    public MongoCollection<Document> getAcademicPeriodPersistenceModel() {
+        return database.getCollection(Constants.MONGODB_COLLECTION_ACADEMIC_PERIOD);
+    }
 }

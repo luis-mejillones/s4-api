@@ -1,5 +1,6 @@
 package utils;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
@@ -20,8 +21,8 @@ public class Persistence<T extends S4Serializable> {
         this.collection = collection;
     }
 
-    public void insert(T student) {
-        Document doc = student.toDocument();
+    public void insert(T data) {
+        Document doc = data.toDocument();
         this.collection.insertOne(doc);
     }
 
@@ -67,5 +68,18 @@ public class Persistence<T extends S4Serializable> {
         }
 
         return list;
+    }
+
+    public List<Document> find(T data) {
+        BasicDBObject criteria = new BasicDBObject();
+        data.getFields().keySet().stream().forEach(item -> {
+                if (data.getFields().get(item) != null) {
+                    criteria.append(item, data.getFields().get(item));
+                }
+        });
+
+        MongoCursor<Document> cursor = this.collection.find(criteria).iterator();
+
+        return this.retrieveDocuments(cursor);
     }
 }
