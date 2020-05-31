@@ -6,6 +6,7 @@ import models.Student;
 import org.slf4j.Logger;
 import play.libs.Json;
 
+import java.util.List;
 import java.util.Optional;
 
 public class StudentServiceImpl implements GenericService<Student> {
@@ -23,6 +24,11 @@ public class StudentServiceImpl implements GenericService<Student> {
     @Override
     public Student create(Student student) {
         return this.repository.create(student);
+    }
+
+    @Override
+    public List<Student> getAll() {
+        return this.repository.getAll();
     }
 
     @Override

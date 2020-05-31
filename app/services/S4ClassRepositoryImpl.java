@@ -1,11 +1,14 @@
 package services;
 
 import models.S4Class;
+import models.Student;
 import org.bson.Document;
 import org.slf4j.Logger;
 import utils.Persistence;
 import utils.S4Serializable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class S4ClassRepositoryImpl implements GenericRepository<S4Class> {
@@ -23,6 +26,21 @@ public class S4ClassRepositoryImpl implements GenericRepository<S4Class> {
         this.logger.info(">>> CREATE: Class with id: " + s4Class.getCode());
 
         return s4Class;
+    }
+
+    @Override
+    public List<S4Class> getAll() {
+        List<Document> list = this.persistence.getAll();
+        List<S4Class> out = new ArrayList<>();
+        list.forEach(item -> {
+            S4Class s4Class = new S4Class();
+            s4Class.fromDocument(item);
+            out.add(s4Class);
+        });
+
+        this.logger.info(">>> GET: Class retrieved: " + out.size());
+
+        return out;
     }
 
     @Override

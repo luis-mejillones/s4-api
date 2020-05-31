@@ -10,12 +10,14 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 ################# Student Controller ###############
 POST    /student          controllers.StudentController.create(request: Request)
+GET     /student          controllers.StudentController.getAll()
 GET     /student/:id      controllers.StudentController.getById(id: String)
 DELETE  /student/:id      controllers.StudentController.delete(id: String)
 PATCH   /student/:id      controllers.StudentController.update(id: String, request: Request)
 
 ################# S4Class Controller ###############
 POST    /class            controllers.S4ClassController.create(request: Request)
+GET     /class            controllers.S4ClassController.getAll()
 GET     /class/:id        controllers.S4ClassController.getById(id: String)
 DELETE  /class/:id        controllers.S4ClassController.delete(id: String)
 PATCH   /class/:id        controllers.S4ClassController.update(id: String, request: Request)

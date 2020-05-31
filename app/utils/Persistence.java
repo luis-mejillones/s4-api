@@ -1,6 +1,7 @@
 package utils;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
@@ -22,6 +23,13 @@ public class Persistence<T extends S4Serializable> {
     public void insert(T student) {
         Document doc = student.toDocument();
         this.collection.insertOne(doc);
+    }
+
+    public List<Document> getAll() {
+        MongoCursor<Document> cursor = this.collection.find().iterator();
+        List<Document> list = this.retrieveDocuments(cursor);
+
+        return list;
     }
 
     public Document find(String id) {
@@ -46,5 +54,18 @@ public class Persistence<T extends S4Serializable> {
         );
 
         return updateResult.getModifiedCount() > 0;
+    }
+
+    private List<Document> retrieveDocuments(MongoCursor<Document> cursor) {
+        List<Document> list = new ArrayList<>();
+        try {
+            while (cursor.hasNext()) {
+                list.add(cursor.next());
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return list;
     }
 }

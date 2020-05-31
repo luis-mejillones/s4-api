@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.S4Class;
-import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -11,6 +10,7 @@ import play.mvc.Result;
 import services.GenericService;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Optional;
 
 public class S4ClassController extends Controller {
@@ -39,7 +39,14 @@ public class S4ClassController extends Controller {
         S4Class out = this.service.create(s4Class);
         JsonNode json = Json.toJson(out);
 
-        return created(this.service.getResponseMessage(Http.Status.CREATED, json.toString()));
+        return created(json);
+    }
+
+    public Result getAll() {
+        List<S4Class> out = this.service.getAll();
+        JsonNode json = Json.toJson(out);
+
+        return ok(json);
     }
 
     public Result getById(String id) {
@@ -50,7 +57,7 @@ public class S4ClassController extends Controller {
 
         JsonNode json = Json.toJson(out);
 
-        return ok(this.service.getResponseMessage(Http.Status.OK, json.toString()));
+        return ok(json);
     }
 
     public Result delete(String id) {
@@ -59,7 +66,7 @@ public class S4ClassController extends Controller {
             return notFound(this.service.getResponseMessage(Http.Status.NOT_FOUND, "Student not found"));
         }
 
-        return ok(this.service.getResponseMessage(Http.Status.OK, StringUtils.EMPTY));
+        return ok();
     }
 
     public Result update(String id, Http.Request request) {
@@ -79,6 +86,6 @@ public class S4ClassController extends Controller {
 
         this.service.update(id, newData);
 
-        return ok(this.service.getResponseMessage(Http.Status.OK, StringUtils.EMPTY));
+        return ok();
     }
 }

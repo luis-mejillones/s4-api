@@ -3,9 +3,11 @@ package services;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.ResponseMessage;
 import models.S4Class;
+import models.Student;
 import org.slf4j.Logger;
 import play.libs.Json;
 
+import java.util.List;
 import java.util.Optional;
 
 public class S4ClassServiceImpl implements GenericService<S4Class> {
@@ -23,6 +25,11 @@ public class S4ClassServiceImpl implements GenericService<S4Class> {
     @Override
     public S4Class create(S4Class s4Class) {
         return this.repository.create(s4Class);
+    }
+
+    @Override
+    public List<S4Class> getAll() {
+        return this.repository.getAll();
     }
 
     @Override

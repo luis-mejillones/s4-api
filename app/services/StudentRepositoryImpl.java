@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import utils.Persistence;
 import utils.S4Serializable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class StudentRepositoryImpl implements GenericRepository<Student> {
@@ -23,6 +25,21 @@ public class StudentRepositoryImpl implements GenericRepository<Student> {
         this.logger.info(">>> CREATE: Student with id: " + student.getId());
 
         return student;
+    }
+
+    @Override
+    public List<Student> getAll() {
+        List<Document> list = this.persistence.getAll();
+        List<Student> out = new ArrayList<>();
+        list.forEach(item -> {
+            Student student = new Student();
+            student.fromDocument(item);
+            out.add(student);
+        });
+
+        this.logger.info(">>> GET: Students retrieved: " + out.size());
+
+        return out;
     }
 
     @Override
