@@ -7,7 +7,9 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import org.slf4j.LoggerFactory;
 import services.StudentRepository;
+import services.StudentRepositoryImpl;
 import services.StudentService;
+import services.StudentServiceImpl;
 import utils.Constants;
 
 public class StudentModule extends AbstractModule {
@@ -21,9 +23,9 @@ public class StudentModule extends AbstractModule {
     public StudentService getMerchantService(
             StudentRepository repository
     ) {
-        return new StudentService(
+        return new StudentServiceImpl(
                 repository,
-                LoggerFactory.getLogger(StudentService.class)
+                LoggerFactory.getLogger(StudentServiceImpl.class)
         );
     }
 
@@ -32,9 +34,9 @@ public class StudentModule extends AbstractModule {
     public StudentRepository getStudentRepository() {
         MongoClient mongoClient = new MongoClient(Constants.MONGODB_HOST, Constants.MONGODB_PORT);
         MongoDatabase database = mongoClient.getDatabase(Constants.MONGODB_DATABASE);
-        return new StudentRepository(
+        return new StudentRepositoryImpl(
                 database.getCollection(Constants.MONGODB_COLLECTION_STUDENT),
-                LoggerFactory.getLogger(StudentRepository.class)
+                LoggerFactory.getLogger(StudentRepositoryImpl.class)
         );
     }
 
