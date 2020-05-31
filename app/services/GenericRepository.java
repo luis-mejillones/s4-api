@@ -1,7 +1,5 @@
 package services;
 
-import models.Student;
-
 import java.util.Optional;
 
 public interface GenericRepository<T> {
@@ -11,5 +9,5 @@ public interface GenericRepository<T> {
 
     Boolean delete(String id);
 
-    Boolean update(Student student);
+    Boolean update(T student);
 }

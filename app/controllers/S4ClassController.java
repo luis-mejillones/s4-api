@@ -1,0 +1,84 @@
+package controllers;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import models.S4Class;
+import org.apache.commons.lang3.StringUtils;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Result;
+import services.GenericService;
+
+import javax.inject.Inject;
+import java.util.Optional;
+
+public class S4ClassController extends Controller {
+    private final GenericService<S4Class> service;
+
+    @Inject
+    public S4ClassController(final GenericService<S4Class> service) {
+        this.service = service;
+    }
+
+    public Result create(Http.Request request) {
+        JsonNode body = request.body().asJson();
+        if (body == null) {
+            return badRequest(this.service.getResponseMessage(Http.Status.BAD_REQUEST, "Expecting Json data"));
+        }
+
+        S4Class s4Class;
+        try {
+            s4Class = Json.mapper().treeToValue(body, S4Class.class);
+        } catch (JsonProcessingException e) {
+            return badRequest(
+                    this.service.getResponseMessage(Http.Status.BAD_REQUEST, "Wrong json data: " + e.getMessage())
+            );
+        }
+
+        S4Class out = this.service.create(s4Class);
+        JsonNode json = Json.toJson(out);
+
+        return created(this.service.getResponseMessage(Http.Status.CREATED, json.toString()));
+    }
+
+    public Result getById(String id) {
+        Optional<S4Class> out = this.service.getById(id);
+        if (!out.isPresent()) {
+            return notFound(this.service.getResponseMessage(Http.Status.NOT_FOUND, "Student not found"));
+        }
+
+        JsonNode json = Json.toJson(out);
+
+        return ok(this.service.getResponseMessage(Http.Status.OK, json.toString()));
+    }
+
+    public Result delete(String id) {
+        Boolean out = this.service.delete(id);
+        if (!out) {
+            return notFound(this.service.getResponseMessage(Http.Status.NOT_FOUND, "Student not found"));
+        }
+
+        return ok(this.service.getResponseMessage(Http.Status.OK, StringUtils.EMPTY));
+    }
+
+    public Result update(String id, Http.Request request) {
+        JsonNode body = request.body().asJson();
+        if (body == null) {
+            return badRequest(this.service.getResponseMessage(Http.Status.BAD_REQUEST, "Expecting Json data"));
+        }
+
+        S4Class newData;
+        try {
+            newData = Json.mapper().treeToValue(body, S4Class.class);
+        } catch (JsonProcessingException e) {
+            return badRequest(
+                    this.service.getResponseMessage(Http.Status.BAD_REQUEST, "Wrong json data: " + e.getMessage())
+            );
+        }
+
+        this.service.update(id, newData);
+
+        return ok(this.service.getResponseMessage(Http.Status.OK, StringUtils.EMPTY));
+    }
+}

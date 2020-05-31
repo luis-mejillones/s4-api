@@ -6,10 +6,19 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 public class Config {
-    public MongoCollection<Document> getPersistenceModel() {
-        MongoClient mongoClient = new MongoClient(Constants.MONGODB_HOST, Constants.MONGODB_PORT);
-        MongoDatabase database = mongoClient.getDatabase(Constants.MONGODB_DATABASE);
+    private final MongoClient mongoClient;
+    private final MongoDatabase database;
 
-        return database.getCollection(Constants.MONGODB_COLLECTION_STUDENT);
+    public Config() {
+        this.mongoClient = new MongoClient(Constants.MONGODB_HOST, Constants.MONGODB_PORT);
+        this.database = this.mongoClient.getDatabase(Constants.MONGODB_DATABASE);
+    }
+
+    public MongoCollection<Document> getStudentPersistenceModel() {
+        return this.database.getCollection(Constants.MONGODB_COLLECTION_STUDENT);
+    }
+
+    public MongoCollection<Document> getS4ClassPersistenceModel() {
+        return database.getCollection(Constants.MONGODB_COLLECTION_CLASS);
     }
 }

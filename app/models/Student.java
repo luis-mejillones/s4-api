@@ -6,6 +6,9 @@ import org.bson.Document;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import utils.S4Serializable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Student implements S4Serializable {
     @BsonProperty(value = "_id")
@@ -39,6 +42,15 @@ public class Student implements S4Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @JsonIgnore
+    public Map<String, String> getFields() {
+        Map<String, String> fields = new HashMap<>();
+        fields.put("lastName", this.lastName);
+        fields.put("firstName", this.firstName);
+
+        return fields;
     }
 
     @JsonIgnore

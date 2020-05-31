@@ -1,7 +1,6 @@
 package services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Student;
 
 import java.util.Optional;
 
@@ -12,7 +11,7 @@ public interface GenericService<T> {
 
     Boolean delete(String id);
 
-    void update(String id, Student newData);
+    void update(String id, T newData);
 
     JsonNode getResponseMessage(Integer status, String body);
 }

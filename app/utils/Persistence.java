@@ -4,8 +4,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
-import models.Student;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -31,13 +34,16 @@ public class Persistence<T extends S4Serializable> {
         return  count > 0;
     }
 
-    public Boolean update(Student student) {
+    public Boolean update(T data) {
+        List<Bson> updates = new ArrayList<>();
+        data.getFields().keySet().stream().forEach(
+                item -> updates.add(Updates.set(item, data.getFields().get(item)))
+        );
+
         UpdateResult updateResult = this.collection.updateMany(
-                Filters.eq("_id", student.getId()),
-                Updates.combine(
-                        Updates.set("lastName", student.getLastName()),
-                        Updates.set("firstName", student.getFirstName())
-                ));
+                Filters.eq("_id", data.getId()),
+                Updates.combine(updates)
+        );
 
         return updateResult.getModifiedCount() > 0;
     }

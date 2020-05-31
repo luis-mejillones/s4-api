@@ -14,5 +14,8 @@ GET     /student/:id      controllers.StudentController.getById(id: String)
 DELETE  /student/:id      controllers.StudentController.delete(id: String)
 PATCH   /student/:id      controllers.StudentController.update(id: String, request: Request)
 
-################# Class Controller ###############
-#POST    /class           controllers.ClassController.create(request: Request)
+################# S4Class Controller ###############
+POST    /class            controllers.S4ClassController.create(request: Request)
+GET     /class/:id        controllers.S4ClassController.getById(id: String)
+DELETE  /class/:id        controllers.S4ClassController.delete(id: String)
+PATCH   /class/:id        controllers.S4ClassController.update(id: String, request: Request)
