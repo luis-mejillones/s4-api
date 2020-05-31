@@ -11,5 +11,5 @@ public interface StudentRepository {
 
     Boolean delete(String id);
 
-    Student update(Student student);
+    Boolean update(Student student);
 }

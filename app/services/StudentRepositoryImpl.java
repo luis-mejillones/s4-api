@@ -1,30 +1,24 @@
 package services;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
-import com.mongodb.client.result.UpdateResult;
 import models.Student;
 import org.bson.Document;
 import org.slf4j.Logger;
+import utils.Persistence;
 
 import java.util.Optional;
 
-import static com.mongodb.client.model.Filters.eq;
-
 public class StudentRepositoryImpl implements StudentRepository {
-    private MongoCollection<Document> collection;
-    private Logger logger;
+    private final Persistence persistence;
+    private final Logger logger;
 
-    public StudentRepositoryImpl(MongoCollection<Document> collection, Logger logger) {
-        this.collection = collection;
+    public StudentRepositoryImpl(final Persistence persistence, final Logger logger) {
+        this.persistence = persistence;
         this.logger = logger;
     }
 
     @Override
     public Student create(Student student) {
-        Document doc = student.toDocument();
-        this.collection.insertOne(doc);
+        this.persistence.insert(student);
         this.logger.info(">>> CREATE: Student with id: " + student.getId());
 
         return student;
@@ -32,7 +26,7 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public Optional<Student> getById(String id) {
-        Document document = this.collection.find(eq("_id", id)).first();
+        Document document = this.persistence.find(id);
 
         if (document != null) {
             this.logger.info(">>> GET: Student retrieved id: " + id);
@@ -49,28 +43,27 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public Boolean delete(String id) {
-        Long count = this.collection.deleteOne(eq("_id", id)).getDeletedCount();
+        Boolean result = this.persistence.delete(id);
 
-        if (count > 0) {
+        if (result) {
             this.logger.info(">>> DELETE: Student id: " + id);
         } else {
             this.logger.info(">>> DELETE: Student with id: " + id + " not found");
         }
 
-        return count > 0;
+        return result;
     }
 
     @Override
-    public Student update(Student student) {
-        UpdateResult updateResult = this.collection.updateMany(
-                Filters.eq("_id", student.getId()),
-                Updates.combine(
-                        Updates.set("lastName", student.getLastName()),
-                        Updates.set("firstName", student.getFirstName())
-                ));
+    public Boolean update(Student student) {
+        Boolean result = this.persistence.update(student);
 
-        this.logger.info(">>> UPDATE: Student updated with id: " + student.getId());
+        if (result) {
+            this.logger.info(">>> UPDATE: Student updated with id: " + student.getId());
+        } else {
+            this.logger.info(">>> UPDATE: Student with id: " + student.getId() + " not found");
+        }
 
-        return student;
+        return result;
     }
 }

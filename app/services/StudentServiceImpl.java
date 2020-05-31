@@ -13,8 +13,8 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository repository;
 
     public StudentServiceImpl(
-            StudentRepository repository,
-            Logger logger
+            final StudentRepository repository,
+            final Logger logger
     ) {
         this.repository = repository;
         this.logger = logger;

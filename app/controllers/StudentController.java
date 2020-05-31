@@ -27,7 +27,7 @@ public class StudentController extends Controller {
             return badRequest(this.service.getResponseMessage(Http.Status.BAD_REQUEST, "Expecting Json data"));
         }
 
-        Student student = null;
+        Student student;
         try {
             student = Json.mapper().treeToValue(body, Student.class);
         } catch (JsonProcessingException e) {
@@ -68,7 +68,7 @@ public class StudentController extends Controller {
             return badRequest(this.service.getResponseMessage(Http.Status.BAD_REQUEST, "Expecting Json data"));
         }
 
-        Student newData = null;
+        Student newData;
         try {
             newData = Json.mapper().treeToValue(body, Student.class);
         } catch (JsonProcessingException e) {
