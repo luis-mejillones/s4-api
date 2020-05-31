@@ -30,4 +30,5 @@ project/.sbtserver.lock
 project/project
 project/target
 /.idea
-.gradle/
+docker-images/data
+docker-images/.volumes
