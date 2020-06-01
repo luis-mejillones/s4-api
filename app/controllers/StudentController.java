@@ -13,6 +13,10 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This controller contains actions to handle HTTP requests
+ * to do CRUD operations with students.
+ */
 public class StudentController extends Controller {
     private final GenericService<Student> service;
 
@@ -21,6 +25,12 @@ public class StudentController extends Controller {
         this.service = service;
     }
 
+    /**
+     * An action that create a student with json payload.
+     * The configuration in the <code>routes</code> file means that
+     * this method will be called when the application receives a
+     * <code>POST</code> request with a path of <code>/student</code>.
+     */
     public Result create(Http.Request request) {
         JsonNode body = request.body().asJson();
         if (body == null) {
